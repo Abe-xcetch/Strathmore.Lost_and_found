@@ -8,7 +8,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     // Dummy validation (replace with real backend/auth later)
     if (id === "student123" && pass === "password") {
         alert("Login successful!");
-        window.location.href = "dashboard.html"; // replace with your actual page
+        window.location.href = "index.html"; // replace with your actual page
     } else {
         error.textContent = "Invalid student ID or password.";
     }
