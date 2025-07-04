@@ -9,27 +9,46 @@ body {
     align-items: center;
 }
 
+/* Main Wrapper */
+.login-wrapper {
+    display: flex;
+    width: 900px;
+    max-width: 90%;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Login Section (Left) */
+.login-section {
+    flex: 1;
+    padding: 40px;
+    background: #fff;
+}
+
 .login-container {
-<img src="images/logos.png" alt="Strathmore Logo" class="logo" />;
-    background-color: white;
-    padding: 40px 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    width: 300px;
-    text-align: center;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.logo {
+    width: 100px;
+    margin-bottom: 20px;
 }
 
 .login-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #043b74;
+    font-size: 1.8rem;
 }
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
+    margin: 8px 0 15px;
+    border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 1rem;
 }
@@ -57,9 +76,79 @@ button:hover {
     font-size: 0.9rem;
 }
 
-.logo {
-    width: 100px; /* Adjust as needed */
+/* About Section (Right) */
+.about-section {
+    flex: 1;
+    padding: 40px;
+    background: #f5f9ff;
+}
+
+.about-container h2 {
+    color: #043b74;
+    font-size: 1.8rem;
     margin-bottom: 20px;
 }
 
+.about-container p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
 
+.features {
+    margin-top: 30px;
+}
+
+.feature {
+    margin-bottom: 20px;
+}
+
+.feature h3 {
+    color: #043b74;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.feature p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.guest-message {
+    font-style: italic;
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 30px;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+
+    .login-section,
+    .about-section {
+        padding: 30px;
+    }
+
+    .about-section {
+        border-top: 1px solid #eee;
+    }
+}
+.error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.login-container a {
+    color: #043b74;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}

@@ -1,15 +1,23 @@
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // prevent actual form submission
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const studentID = document.getElementById("studentID").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    const id = document.getElementById("studentID").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const error = document.getElementById("errorMsg");
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ studentID, password }),
+        });
 
-    // Dummy validation (replace with real backend/auth later)
-    if (id === "student123" && pass === "password") {
-        alert("Login successful!");
-        window.location.href = "index.html"; // replace with your actual page
-    } else {
-        error.textContent = "Invalid student ID or password.";
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem('token', data.token); // Store token
+            window.location.href = "../StrathFind/index.html";
+        } else {
+            document.getElementById("errorMsg").textContent = data.error || 'Login failed';
+        }
+    } catch (err) {
+        console.error('Login error:', err);
     }
 });

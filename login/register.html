@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | StrathFind</title>
+    <link rel="stylesheet" href="login.css"> <!-- Reuse login styles -->
+</head>
+<body>
+<div class="login-wrapper">
+    <div class="login-section">
+        <div class="login-container">
+            <img src="../StrathFind/images/logos.png" alt="Strathmore Logo" class="logo">
+            <h2>Create Account</h2>
+            <form id="registerForm">
+                <label for="studentID">Student ID</label>
+                <input type="text" id="studentID" placeholder="e.g. 123456" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="At least 8 characters" required>
+
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Re-type password" required>
+
+                <button type="submit">Register</button>
+                <p id="errorMsg" class="error-message"></p>
+            </form>
+            <p>Already have an account? <a href="login_page.html">Login here</a></p>
+        </div>
+    </div>
+    <div class="about-section">
+        <div class="about-container">
+            <h2>Welcome to StrathFind</h2>
+            <p>Your trusted platform for reuniting lost items with their owners at Strathmore University.</p>
+
+            <div class="features">
+                <div class="feature">
+                    <h3>🔍 Report Lost Items</h3>
+                    <p>Quickly post details of lost belongings to increase chances of recovery.</p>
+                </div>
+                <div class="feature">
+                    <h3>📢 Found Something?</h3>
+                    <p>Help others by reporting found items in campus areas.</p>
+                </div>
+                <div class="feature">
+                    <h3>🔔 Instant Notifications</h3>
+                    <p>Get alerts when your lost item is found.</p>
+                </div>
+            </div>
+
+            <p class="guest-message">Don't have an account? Contact admin for access.</p>
+        </div>
+    </div>
+</div>
+<script src="register.js"></script>
+</body>
+</html>

@@ -7,23 +7,51 @@
   <link rel="stylesheet" href="login.css" />
 </head>
 <body>
-<div class="login-container">
-  <img src="images/logos.png" alt="Strathmore Logo" class="logo" />
-  <h2>StrathFind Login</h2>
-  <form id="loginForm">
+<div class="login-wrapper">
+  <!-- Left Section: Login Form -->
+  <div class="login-section">
+    <div class="login-container">
+      <img src="images/logos.png" alt="Strathmore Logo" class="logo" />
+      <h2>StrathFind Login</h2>
+      <form id="loginForm">
+        <label for="studentID">Student ID</label>
+        <input type="text" id="studentID" placeholder="Student ID" required />
 
-    <label for="studentID">Student ID</label>
-    <input type="text" id="studentID" placeholder="Student ID" required />
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Password" required />
 
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+        <p id="errorMsg"></p>
+      </form>
+    </div>
+  </div>
 
-    <button type="submit">Login</button>
-    <p id="errorMsg"></p>
-  </form>
+  <!-- Right Section: About StrathFind -->
+  <div class="about-section">
+    <div class="about-container">
+      <h2>Welcome to StrathFind</h2>
+      <p>Your trusted platform for reuniting lost items with their owners at Strathmore University.</p>
+
+      <div class="features">
+        <div class="feature">
+          <h3>🔍 Report Lost Items</h3>
+          <p>Quickly post details of lost belongings to increase chances of recovery.</p>
+        </div>
+        <div class="feature">
+          <h3>📢 Found Something?</h3>
+          <p>Help others by reporting found items in campus areas.</p>
+        </div>
+        <div class="feature">
+          <h3>🔔 Instant Notifications</h3>
+          <p>Get alerts when your lost item is found.</p>
+        </div>
+      </div>
+
+      <p class="guest-message">Don't have an account? Contact admin for access.</p>
+    </div>
+  </div>
 </div>
 
 <script src="login.js"></script>
-
 </body>
 </html>

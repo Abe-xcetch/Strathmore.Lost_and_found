@@ -1,82 +1,93 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Sample data - in a real app, this would come from a database
-    let listings = [
-        {
-            id: 1,
-            type: 'lost',
-            name: 'Black Wallet',
-            description: 'Black leather wallet with credit cards and ID inside. Reward offered.',
-            location: 'Central Park',
-            date: '2023-05-15',
-            contact: 'john@example.com'
-        },
-        {
-            id: 2,
-            type: 'found',
-            name: 'iPhone 12',
-            description: 'Silver iPhone found near the food court. Has a blue case.',
-            location: 'City Mall',
-            date: '2023-05-18',
-            contact: '555-1234'
-        },
-        {
-            id: 3,
-            type: 'lost',
-            name: 'Gold Necklace',
-            description: 'Thin gold chain with heart pendant. Sentimental value.',
-            location: 'Main Street',
-            date: '2023-05-20',
-            contact: 'sarah@example.com'
-        }
-    ];
-
     // DOM Elements
     const reportForm = document.getElementById('reportForm');
     const listingsContainer = document.getElementById('listingsContainer');
     const filterButtons = document.querySelectorAll('.filter-btn');
 
     // Initialize the page
-    renderListings(listings);
+    loadItems();
 
     // Form submission
-    reportForm.addEventListener('submit', function(e) {
+    reportForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const newItem = {
-            id: Date.now(), // Simple unique ID
-            type: document.getElementById('itemType').value,
-            name: document.getElementById('itemName').value,
-            description: document.getElementById('itemDescription').value,
-            location: document.getElementById('location').value,
-            date: document.getElementById('date').value,
-            contact: document.getElementById('contact').value
-        };
+        const formData = new FormData();
+        formData.append('type', document.getElementById('itemType').value);
+        formData.append('name', document.getElementById('itemName').value);
+        formData.append('description', document.getElementById('itemDescription').value);
+        formData.append('location', document.getElementById('location').value);
+        formData.append('date', document.getElementById('date').value);
+        formData.append('contact', document.getElementById('contact').value);
+        formData.append('image', document.getElementById('itemImage').files[0]);
 
-        listings.unshift(newItem); // Add to beginning of array
-        renderListings(listings);
-        reportForm.reset();
+        try {
+            const response = await fetch('http://localhost:5000/api/items', {
+                method: 'POST',
+                body: formData
+            });
 
-        alert('Thank you for your report!');
+            if (response.ok) {
+                alert('Thank you for your report!');
+                reportForm.reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                loadItems(); // Refresh listings
+            } else {
+                throw new Error('Failed to submit report');
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('There was an error submitting your report. Please try again.');
+        }
+    });
+
+    // Image preview functionality
+    document.getElementById('itemImage').addEventListener('change', function(e) {
+        const preview = document.getElementById('imagePreview');
+        if (e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
     });
 
     // Filter buttons
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', async function() {
             // Update active button
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
 
             // Filter listings
             const filter = this.dataset.filter;
-            let filteredListings = listings;
+            let url = 'http://localhost:5000/api/items';
 
             if (filter !== 'all') {
-                filteredListings = listings.filter(item => item.type === filter);
+                url += `?type=${filter}`;
             }
 
-            renderListings(filteredListings);
+            try {
+                const response = await fetch(url);
+                const filteredItems = await response.json();
+                renderListings(filteredItems);
+            } catch (err) {
+                console.error('Error loading filtered items:', err);
+            }
         });
     });
+
+    // Load items from backend
+    async function loadItems() {
+        try {
+            const response = await fetch('http://localhost:5000/api/items');
+            const items = await response.json();
+            renderListings(items);
+        } catch (err) {
+            console.error('Error loading items:', err);
+        }
+    }
 
     // Render listings to the page
     function renderListings(items) {
@@ -96,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="card-body">
                     <h3>${item.name}</h3>
+                    ${item.image ? `<img src="http://localhost:5000/${item.image}" alt="${item.name}" class="item-image">` : ''}
                     <p><strong>Description:</strong> ${item.description}</p>
                     <p><strong>Location:</strong> ${item.location}</p>
                 </div>
@@ -104,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span>Contact: ${item.contact}</span>
                 </div>
             `;
-
             listingsContainer.appendChild(listingElement);
         });
     }
