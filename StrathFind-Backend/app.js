@@ -16,16 +16,17 @@ mongoose.connect(process.env.MONGO_URI)
 
 // 2. Basic Middleware (applied in all environments)
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production'
+    origin: process.env.NODE_ENV === 'development'
         ? ['https://strathfind.onrender.com']
         : 'http://localhost:63342',
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 // 3. Production-Specific Middleware (add here)
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
     app.use(helmet()); // Security headers
     app.use(compression()); // Gzip compression
 

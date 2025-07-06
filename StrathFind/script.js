@@ -21,9 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('image', document.getElementById('itemImage').files[0]);
 
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:5000/api/items', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {"Authorization": `Bearer ${token}`}
             });
 
             if (response.ok) {

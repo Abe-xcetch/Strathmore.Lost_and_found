@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -28,21 +29,38 @@ router.post('/register', async (req, res) => {
         await user.save();
         res.status(201).json({ message: "User registered successfully" });
     } catch (err) {
+        console.error('Registration error:', err);
         res.status(500).json({ error: "Server error" });
     }
 });
 
 // Login
 router.post('/login', async (req, res) => {
-    const { studentID, password } = req.body;
-    const user = await User.findOne({ studentID });
+    try {
+        const { studentID, password } = req.body;
+        const user = await User.findOne({ studentID });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ error: 'Invalid credentials' });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        res.json({
+            token,
+            user: {
+                id: user._id,
+                studentID: user.studentID
+            }
+        });
+    } catch (err) {
+        console.error('Login error:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-
-    const token = jwt.sign({ id: user._id }, 'your_secret_key', { expiresIn: '1h' });
-    res.json({ token });
 });
 
 module.exports = router;
