@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI)
 // 2. Basic Middleware (applied in all environments)
 app.use(cors({
     origin: process.env.NODE_ENV === 'production'
-        ? ['https://yourdomain.com']
+        ? ['https://strathfind.onrender.com']
         : 'http://localhost:63342',
     credentials: true
 }));
